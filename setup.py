@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="fsuipc",
-    version="1.0.0",
+    version="1.0.0a0",
     author="Tim Jensen",
     author_email="tim.l.jensen@gmail.com",
     description="Client wrapper for FSUIPC",
