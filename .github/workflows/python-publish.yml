@@ -53,7 +53,7 @@ jobs:
     - name: Build sdist
       run: |
         python setup.py sdist
-        dir dist
+        dir -recurse dist
 #    - name: Build and publish
 #      env:
 #        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
