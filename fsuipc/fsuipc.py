@@ -2,8 +2,8 @@ import pyuipc
 
 
 class FSUIPC():
-    def __init__(self):
-        pyuipc.open(pyuipc.SIM_ANY)
+    def __init__(self, version=pyuipc.SIM_ANY):
+        pyuipc.open(version)
 
     def close(self):
         pyuipc.close()
