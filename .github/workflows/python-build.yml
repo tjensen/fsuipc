@@ -1,4 +1,4 @@
-name: Python Build
+name: Python Build and Test
 
 on: [push]
 
@@ -22,12 +22,12 @@ jobs:
       run: |
         python -m pip install --upgrade pip setuptools
         pip install -r dev-requirements.txt
+    - name: Install package
+      run: |
+        python setup.py install
     - name: Run tests
       run: |
         pytest -v
     - name: Run linter
       run: |
         flake8
-    - name: Build wheel
-      run: |
-        python setup.py bdist_wheel
