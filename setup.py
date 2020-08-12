@@ -15,6 +15,11 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     license="MIT",
     url="https://github.com/tjensen/fsuipc",
+    project_urls={
+        "Source": "https://github.com/tjensen/fsuipc",
+        "Tracker": "https://github.com/tjensen/fsuipc/issues"
+    },
+    keywords=["flight", "simulator", "pyuipc"],
     packages=setuptools.find_packages(exclude=["tests"]),
     classifiers=[
         "Development Status :: 5 - Production/Stable",
