@@ -1,4 +1,7 @@
-from fsuipc.prepared_data import PreparedData
+from types import TracebackType
+from typing import List, Optional, Tuple, Type, Union
+
+from fsuipc.prepared_data import PreparedData, DataSpecification
 import pyuipc
 
 
@@ -13,7 +16,7 @@ class FSUIPC():
             altitude = ipc.read([(0x570, "l")])
     """
 
-    def __init__(self, version=pyuipc.SIM_ANY):
+    def __init__(self, version: int = pyuipc.SIM_ANY) -> None:
         """Opens a connection to FSUIPC.
 
         By default, connects to any available flight simulator.
@@ -24,12 +27,14 @@ class FSUIPC():
 
         pyuipc.open(version)
 
-    def close(self):
+    def close(self) -> None:
         """Closes the connection to FSUIPC."""
 
         pyuipc.close()
 
-    def prepare_data(self, data_specification, for_reading):
+    def prepare_data(
+            self, data_specification: DataSpecification, for_reading: bool
+    ) -> PreparedData:
         """Prepare a data specification for reading or writing.
 
         Preparing a data specification can reduce the cost of converting sets
@@ -71,7 +76,7 @@ class FSUIPC():
 
         return PreparedData(data_specification, for_reading)
 
-    def read(self, unprepared_data):
+    def read(self, unprepared_data: DataSpecification) -> List[Union[int, float, bytes]]:
         """Read data from FSUIPC using an unprepared data specification.
 
         Returns a list of the data items read.
@@ -82,7 +87,9 @@ class FSUIPC():
 
         return pyuipc.read(unprepared_data)
 
-    def write(self, unprepared_data):
+    def write(
+            self, unprepared_data: List[Tuple[int, Union[int, str], Union[int, float, bytes]]]
+    ) -> None:
         """Write data to FSUIPC using an unprepared data specification.
 
         Arguments:
@@ -96,8 +103,11 @@ class FSUIPC():
 
         return pyuipc.write(unprepared_data)
 
-    def __enter__(self):
+    def __enter__(self) -> "FSUIPC":
         return self
 
-    def __exit__(self, exc_type, exc_value, traceback):
+    def __exit__(
+            self, exc_type: Optional[Type[BaseException]], exc_value: Optional[BaseException],
+            traceback: Optional[TracebackType]
+    ) -> None:
         self.close()

@@ -1,4 +1,8 @@
+from typing import List, Tuple, Union
 import pyuipc
+
+
+DataSpecification = List[Tuple[int, Union[int, str]]]
 
 
 class PreparedData():
@@ -11,10 +15,10 @@ class PreparedData():
     prepare_data method.
     """
 
-    def __init__(self, data_specification, for_reading):
+    def __init__(self, data_specification: DataSpecification, for_reading: bool) -> None:
         self._prepared_data = pyuipc.prepare_data(data_specification, for_reading)
 
-    def read(self):
+    def read(self) -> List[Union[int, float, bytes]]:
         """Read data from FSUIPC.
 
         Returns a list of the data items read.
@@ -22,7 +26,7 @@ class PreparedData():
 
         return pyuipc.read(self._prepared_data)
 
-    def write(self, data):
+    def write(self, data: List[Union[int, float, bytes]]) -> None:
         """Write data to FSUIPC.
 
         Arguments:
