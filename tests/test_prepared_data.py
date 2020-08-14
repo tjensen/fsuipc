@@ -6,7 +6,7 @@ import pyuipc
 
 
 class TestPreparedData(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         super().setUp()
         self.mock_pyuipc_prepare_data = mock.Mock(name="pyuipc.prepare_data")
         self.mock_pyuipc_read = mock.Mock(name="pyuipc.read")
@@ -18,13 +18,14 @@ class TestPreparedData(unittest.TestCase):
         pyuipc_patcher.start()
         self.addCleanup(pyuipc_patcher.stop)
 
-    def test_constructor_calls_pyuipc_prepare_data_with_provided_arguments(self):
-        PreparedData("DATA", "FOR-READING")
+    def test_constructor_calls_pyuipc_prepare_data_with_provided_arguments(self) -> None:
+        PreparedData(mock.sentinel.data_specification, mock.sentinel.for_reading)
 
-        self.mock_pyuipc_prepare_data.assert_called_once_with("DATA", "FOR-READING")
+        self.mock_pyuipc_prepare_data.assert_called_once_with(
+            mock.sentinel.data_specification, mock.sentinel.for_reading)
 
-    def test_read_calls_pyuipc_read_with_prepared_data_and_returns_read_data(self):
-        prepared = PreparedData("DATA", "FOR-READING")
+    def test_read_calls_pyuipc_read_with_prepared_data_and_returns_read_data(self) -> None:
+        prepared = PreparedData([(42, "f")], True)
 
         data = prepared.read()
 
@@ -32,10 +33,10 @@ class TestPreparedData(unittest.TestCase):
 
         self.mock_pyuipc_read.assert_called_once_with(self.mock_pyuipc_prepare_data.return_value)
 
-    def test_write_calls_pyuipc_write_with_prepared_data(self):
-        prepared = PreparedData("DATA", "FOR-READING")
+    def test_write_calls_pyuipc_write_with_prepared_data(self) -> None:
+        prepared = PreparedData([(42, "f")], False)
 
-        prepared.write("WRITE-DATA")
+        prepared.write(mock.sentinel.write_data)
 
         self.mock_pyuipc_write.assert_called_once_with(
-            self.mock_pyuipc_prepare_data.return_value, "WRITE-DATA")
+            self.mock_pyuipc_prepare_data.return_value, mock.sentinel.write_data)

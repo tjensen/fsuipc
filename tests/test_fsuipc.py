@@ -7,7 +7,7 @@ import fsuipc
 
 
 class TestModule(unittest.TestCase):
-    def test_error_constants_match_pyuipc_error_constants(self):
+    def test_error_constants_match_pyuipc_error_constants(self) -> None:
         self.assertEqual(pyuipc.ERR_OK, fsuipc.ERR_OK)
         self.assertEqual(pyuipc.ERR_OPEN, fsuipc.ERR_OPEN)
         self.assertEqual(pyuipc.ERR_NOFS, fsuipc.ERR_NOFS)
@@ -25,7 +25,7 @@ class TestModule(unittest.TestCase):
         self.assertEqual(pyuipc.ERR_RUNNING, fsuipc.ERR_RUNNING)
         self.assertEqual(pyuipc.ERR_SIZE, fsuipc.ERR_SIZE)
 
-    def test_simulator_constants_match_pyuipc_simulator_constants(self):
+    def test_simulator_constants_match_pyuipc_simulator_constants(self) -> None:
         self.assertEqual(pyuipc.SIM_ANY, fsuipc.SIM_ANY)
         self.assertEqual(pyuipc.SIM_FS98, fsuipc.SIM_FS98)
         self.assertEqual(pyuipc.SIM_FS2K, fsuipc.SIM_FS2K)
@@ -40,12 +40,12 @@ class TestModule(unittest.TestCase):
         self.assertEqual(pyuipc.SIM_FSX64, fsuipc.SIM_FSX64)
         self.assertEqual(pyuipc.SIM_P3D64, fsuipc.SIM_P3D64)
 
-    def test_fsuipc_exception_matches_pyuipc_fsuipc_exception(self):
+    def test_fsuipc_exception_matches_pyuipc_fsuipc_exception(self) -> None:
         assert pyuipc.FSUIPCException is fsuipc.FSUIPCException
 
 
 class TestFSUIPC(unittest.TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.mock_pyuipc_open = mock.Mock(name="pyuipc.open")
         self.mock_pyuipc_close = mock.Mock(name="pyuipc.close")
         self.mock_pyuipc_prepare_data = mock.Mock(name="pyuipc.prepare_data")
@@ -59,35 +59,35 @@ class TestFSUIPC(unittest.TestCase):
         pyuipc_patcher.start()
         self.addCleanup(pyuipc_patcher.stop)
 
-    def test_constructor_calls_pyuipc_open(self):
+    def test_constructor_calls_pyuipc_open(self) -> None:
         fsuipc.FSUIPC()
 
         self.mock_pyuipc_open.assert_called_once_with(pyuipc.SIM_ANY)
 
-    def test_close_calls_pyuipc_close(self):
+    def test_close_calls_pyuipc_close(self) -> None:
         fsuipc.FSUIPC().close()
 
         self.mock_pyuipc_close.assert_called_once_with()
 
-    def test_object_can_be_used_as_a_context_manager(self):
+    def test_object_can_be_used_as_a_context_manager(self) -> None:
         with fsuipc.FSUIPC():
             self.mock_pyuipc_open.assert_called_once_with(pyuipc.SIM_ANY)
 
         self.mock_pyuipc_close.assert_called_once_with()
 
-    def test_constructor_passes_simulator_version_to_pyuipc_when_provided(self):
+    def test_constructor_passes_simulator_version_to_pyuipc_when_provided(self) -> None:
         fsuipc.FSUIPC(42)
 
         self.mock_pyuipc_open.assert_called_once_with(42)
 
-    def test_prepare_data_creates_a_prepared_data_instance_and_returns_it(self):
+    def test_prepare_data_creates_a_prepared_data_instance_and_returns_it(self) -> None:
         ipc = fsuipc.FSUIPC()
 
         result = ipc.prepare_data(mock.sentinel.data, mock.sentinel.for_reading)
 
         self.assertIsInstance(result, fsuipc.PreparedData)
 
-    def test_read_calls_pyuipc_read_with_unprepared_data(self):
+    def test_read_calls_pyuipc_read_with_unprepared_data(self) -> None:
         ipc = fsuipc.FSUIPC()
 
         result = ipc.read(mock.sentinel.data)
@@ -96,11 +96,9 @@ class TestFSUIPC(unittest.TestCase):
 
         self.mock_pyuipc_read.assert_called_once_with(mock.sentinel.data)
 
-    def test_write_calls_pyuipc_write_with_unprepared_data(self):
+    def test_write_calls_pyuipc_write_with_unprepared_data(self) -> None:
         ipc = fsuipc.FSUIPC()
 
-        result = ipc.write(mock.sentinel.data)
-
-        self.assertEqual(self.mock_pyuipc_write.return_value, result)
+        ipc.write(mock.sentinel.data)
 
         self.mock_pyuipc_write.assert_called_once_with(mock.sentinel.data)
