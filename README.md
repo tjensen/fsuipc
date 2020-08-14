@@ -16,3 +16,26 @@ pip install fsuipc
 ```
 
 Note that fsuipc only supports Windows platforms.
+
+## Basic Usage
+
+```python
+from fsuipc import FSUIPC
+
+
+with FSUIPC() as fsuipc:
+    prepared = fsuipc.prepare_data([
+        (0x560, "l"),
+        (0x568, "l"),
+        (0x570, "l")
+    ], True)
+
+    while True:
+        latitude, longitude, altitude = prepared.read()
+
+        print(f"Latitude: {latitude}")
+        print(f"Longitude: {longitude}")
+        print(f"Altitude: {altitude}")
+
+        input("Press ENTER to read again")
+```
