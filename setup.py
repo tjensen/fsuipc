@@ -20,7 +20,12 @@ setuptools.setup(
         "Tracker": "https://github.com/tjensen/fsuipc/issues"
     },
     keywords=["flight", "simulator", "pyuipc"],
-    packages=setuptools.find_packages(exclude=["tests"]),
+    packages=["fsuipc", "pyuipc-stubs"],
+    package_data={
+        "fsuipc": ["py.typed"],  # PEP 561
+        "pyuipc-stubs": ["__init__.pyi"]
+    },
+    zip_safe=False,  # Enables mypy to find the installed package
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: Console",
