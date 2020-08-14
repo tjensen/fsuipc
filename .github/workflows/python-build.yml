@@ -31,3 +31,6 @@ jobs:
     - name: Run linter
       run: |
         flake8
+    - name: Run type checker
+      run: |
+        mypy
