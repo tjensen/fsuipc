@@ -7,3 +7,4 @@ from pyuipc import SIM_FSX, SIM_ESP, SIM_P3D, SIM_FSX64, SIM_P3D64
 from pyuipc import FSUIPCException
 
 from fsuipc.fsuipc import FSUIPC
+from fsuipc.prepared_data import PreparedData

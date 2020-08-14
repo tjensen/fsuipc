@@ -80,17 +80,14 @@ class TestFSUIPC(unittest.TestCase):
 
         self.mock_pyuipc_open.assert_called_once_with(42)
 
-    def test_prepare_data_calls_pyuipc_prepare_data(self):
+    def test_prepare_data_creates_a_prepared_data_instance_and_returns_it(self):
         ipc = fsuipc.FSUIPC()
 
         result = ipc.prepare_data(mock.sentinel.data, mock.sentinel.for_reading)
 
-        self.assertEqual(self.mock_pyuipc_prepare_data.return_value, result)
+        self.assertIsInstance(result, fsuipc.PreparedData)
 
-        self.mock_pyuipc_prepare_data.assert_called_once_with(
-            mock.sentinel.data, mock.sentinel.for_reading)
-
-    def test_read_calls_pyuipc_read(self):
+    def test_read_calls_pyuipc_read_with_unprepared_data(self):
         ipc = fsuipc.FSUIPC()
 
         result = ipc.read(mock.sentinel.data)
@@ -99,7 +96,7 @@ class TestFSUIPC(unittest.TestCase):
 
         self.mock_pyuipc_read.assert_called_once_with(mock.sentinel.data)
 
-    def test_write_calls_pyuipc_write_when_only_data_is_provided(self):
+    def test_write_calls_pyuipc_write_with_unprepared_data(self):
         ipc = fsuipc.FSUIPC()
 
         result = ipc.write(mock.sentinel.data)
@@ -107,13 +104,3 @@ class TestFSUIPC(unittest.TestCase):
         self.assertEqual(self.mock_pyuipc_write.return_value, result)
 
         self.mock_pyuipc_write.assert_called_once_with(mock.sentinel.data)
-
-    def test_write_calls_pyuipc_write_when_data_and_prepared_data_are_both_provided(self):
-        ipc = fsuipc.FSUIPC()
-
-        result = ipc.write(mock.sentinel.data, mock.sentinel.prepared_data)
-
-        self.assertEqual(self.mock_pyuipc_write.return_value, result)
-
-        self.mock_pyuipc_write.assert_called_once_with(
-            mock.sentinel.prepared_data, mock.sentinel.data)
