@@ -1,13 +1,21 @@
+import platform
 import setuptools
+import struct
+import sys
 
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
 
+if struct.calcsize("P") != 4 or platform.system() != "Windows":
+    sys.stderr.write("This package requires a 32-bit version of Python for Windows\n")
+    exit(1)
+
+
 setuptools.setup(
     name="fsuipc",
-    version="1.0.1",
+    version="1.0.2",
     author="Tim Jensen",
     author_email="tim.l.jensen@gmail.com",
     description="Client wrapper for FSUIPC",
