@@ -32,6 +32,11 @@ SIM_FSX64: int
 SIM_P3D64: int
 
 
+fs_version: int
+fsuipc_version: int
+lib_version: int
+
+
 class FSUIPCException(Exception):
     def __init__(self, code: int) -> None:
         ...

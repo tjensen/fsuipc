@@ -32,6 +32,25 @@ class FSUIPC():
 
         pyuipc.close()
 
+    def get_simulator_version(self) -> int:
+        """Returns the actual version of the simulator, as one of the SIM_xxx constants"""
+
+        return pyuipc.fs_version
+
+    def get_fsuipc_version(self) -> str:
+        """Returns the FSUIPC version"""
+
+        bcd_version = int(f"{pyuipc.fsuipc_version >> 16:x}")
+        major = bcd_version // 1000
+        minor = bcd_version % 1000
+        build = pyuipc.fsuipc_version % 65536
+        return f"{major}.{minor:03}{chr(build + 96)}"
+
+    def get_library_version(self) -> str:
+        """Returns the FSUIPC client library version"""
+
+        return f"{pyuipc.lib_version // 1000}.{pyuipc.lib_version % 1000:03}"
+
     def prepare_data(
             self, data_specification: DataSpecification, for_reading: bool
     ) -> PreparedData:
