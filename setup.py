@@ -1,10 +1,11 @@
+from os import path
 import platform
 import setuptools
 import struct
 import sys
 
 
-with open("README.md", "r") as fh:
+with open(path.join(path.abspath(path.dirname(__file__)), "README.md"), "r", encoding="utf8") as fh:
     long_description = fh.read()
 
 
