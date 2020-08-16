@@ -32,8 +32,9 @@ SIM_FSX64: int
 SIM_P3D64: int
 
 
-class FSUIPCException:
-    ...
+class FSUIPCException(Exception):
+    def __init__(self, code: int) -> None:
+        ...
 
 
 class OpaqueData:
