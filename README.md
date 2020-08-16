@@ -1,4 +1,4 @@
-﻿# fsuipc
+# fsuipc
 
 This project provides a simple Python client class wrapper around the
 [FSUIPC](http://www.fsuipc.com/) tool, which allows third-party programs to
