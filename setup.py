@@ -15,7 +15,7 @@ if struct.calcsize("P") != 4 or platform.system() != "Windows":
 
 setuptools.setup(
     name="fsuipc",
-    version="1.0.2",
+    version="1.0.3",
     author="Tim Jensen",
     author_email="tim.l.jensen@gmail.com",
     description="Client wrapper for FSUIPC",
