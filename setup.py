@@ -8,9 +8,16 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 
-if struct.calcsize("P") != 4 or platform.system() != "Windows":
-    sys.stderr.write("This package requires a 32-bit version of Python for Windows\n")
+if platform.system() != "Windows":
+    sys.stderr.write("This package only supports Windows platforms\n")
     exit(1)
+
+if struct.calcsize("P") == 8:
+    ipcuser_source = "src/UIPC64_SDK_C_version2/IPCuser64.c"
+    include_dir = "src/UIPC64_SDK_C_version2"
+else:
+    ipcuser_source = "src/UIPC_SDK_C/IPCuser.c"
+    include_dir = "src/UIPC_SDK_C"
 
 
 setuptools.setup(
@@ -51,9 +58,9 @@ setuptools.setup(
     ext_modules=[setuptools.Extension(
         name="pyuipc",
         sources=[
-            "src/UIPC_SDK_C/IPCuser.c",
+            ipcuser_source,
             "src/UIPC_SDK_Python/pyuipc.cc"
         ],
-        include_dirs=["src/UIPC_SDK_C"],
+        include_dirs=[include_dir],
         libraries=["user32"])]
 )
