@@ -30,6 +30,7 @@ SIM_ESP: int
 SIM_P3D: int
 SIM_FSX64: int
 SIM_P3D64: int
+SIM_FS2020: int
 
 
 fs_version: int
