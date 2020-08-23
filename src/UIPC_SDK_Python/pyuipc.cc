@@ -6,7 +6,12 @@
 #include <algorithm>
 
 #include <windows.h>
-#include <FSUIPC_User.h>
+
+#ifdef _WIN64
+# include <FSUIPC_User64.h>
+#else
+# include <FSUIPC_User.h>
+#endif
 
 #define _hypot hypot
 #include <Python.h>
@@ -432,7 +437,7 @@ struct TypeInfo {
     /**
      * The number of bytes to reserve for values of the type.
      */
-    size_t length;
+    DWORD length;
 
     /**
      * The alignment of values of the type.
@@ -557,7 +562,7 @@ struct DataInfo
     /**
      * The offset of the data.
      */
-    size_t offset;
+    DWORD offset;
 
     /**
      * The type information about the data.
@@ -567,7 +572,7 @@ struct DataInfo
     /**
      * Construct the data info.
      */
-    DataInfo(size_t offset = 0, const TypeInfo* typeInfo = 0);
+    DataInfo(DWORD offset = 0, const TypeInfo* typeInfo = 0);
 
     /**
      * Destroy the data info.
@@ -577,7 +582,7 @@ struct DataInfo
 
 //-----------------------------------------------------------------------------
 
-inline DataInfo::DataInfo(size_t offset, const TypeInfo* typeInfo) :
+inline DataInfo::DataInfo(DWORD offset, const TypeInfo* typeInfo) :
     offset(offset),
     typeInfo(typeInfo)
 {
@@ -629,7 +634,7 @@ private:
     /**
      * The number of data items.
      */
-    size_t numDataItems;
+    Py_ssize_t numDataItems;
 
     /**
      * The data area that we work with.
@@ -735,14 +740,14 @@ PreparedData::PreparedData(PyObject* list, bool forRead) :
         return;
     }
 
-    int size = PyList_GET_SIZE(list);
+    Py_ssize_t size = PyList_GET_SIZE(list);
     if (size<=0) {
         setError(PyExc_ValueError, const_cast<char*>("list is too short, at least one element is needed"));
         return;
     }
 
     dataInfo = new DataInfo[size];
-    int i = 0;
+    Py_ssize_t i = 0;
     size_t dataSize = 0;
     for(; i<size; ++i) {
         PyObject* item = PyList_GET_ITEM(list, i);
@@ -811,6 +816,7 @@ PreparedData::PreparedData(PyObject* list, bool forRead) :
         } else {
             dataSize = max(dataSize, typeInfo->length);
         }
+
         dataInfo[i].typeInfo = typeInfo;
     }
     if (i<size) {
@@ -843,8 +849,8 @@ bool PreparedData::isValid() const
 
 void PreparedData::print() const
 {
-    for(size_t i = 0; i<numDataItems; ++i) {
-        printf("%02u: offset=%u, type letter=%c\n",
+    for(Py_ssize_t i = 0; i<numDataItems; ++i) {
+        printf("%02zd: offset=%u, type letter=%c\n",
                i, dataInfo[i].offset, dataInfo[i].typeInfo->letter);
     }
 }
@@ -858,8 +864,8 @@ bool PreparedData::startRead() const
         return false;
     }
 
-    size_t dataOffset = 0;
-    for(size_t i = 0; i<numDataItems; ++i) {
+    Py_ssize_t dataOffset = 0;
+    for(Py_ssize_t i = 0; i<numDataItems; ++i) {
         const DataInfo& info = dataInfo[i];
         DWORD result;
 
@@ -896,8 +902,8 @@ PyObject* PreparedData::processRead() const
 
     PyObject* list = PyList_New(numDataItems);
 
-    size_t dataOffset = 0;
-    for(size_t i = 0; i<numDataItems; ++i) {
+    Py_ssize_t dataOffset = 0;
+    for(Py_ssize_t i = 0; i<numDataItems; ++i) {
         const DataInfo& info = dataInfo[i];
 
         dataOffset = align(dataOffset, info.typeInfo->alignment);
@@ -946,7 +952,7 @@ bool PreparedData::write(PyObject* list, bool prepared) const
     }
 
     bool isOK = true;
-    for(size_t i = 0; i<numDataItems && isOK; ++i) {
+    for(Py_ssize_t i = 0; i<numDataItems && isOK; ++i) {
         PyObject* item = PyList_GET_ITEM(list, i);
         PyObject* object = 0;
         if (prepared) {
@@ -1298,6 +1304,7 @@ initpyuipc(void)
         PyModule_AddIntConstant(module, "SIM_P3D", 10);
         PyModule_AddIntConstant(module, "SIM_FSX64", 11);
         PyModule_AddIntConstant(module, "SIM_P3D64", 12);
+        PyModule_AddIntConstant(module, "SIM_FS2020", 13);
 
         PyModule_AddIntConstant(module, "ERR_OK", 0);
         PyModule_AddIntConstant(module, "ERR_OPEN", 1);

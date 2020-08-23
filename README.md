@@ -15,8 +15,7 @@ The easiest way to install this package is using `pip`:
 pip install fsuipc
 ```
 
-Note that fsuipc currently only supports **32-bit** Python on Windows
-platforms.
+Note that fsuipc only supports Python on Windows platforms.
 
 ## Basic Usage
 

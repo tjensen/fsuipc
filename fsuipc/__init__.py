@@ -33,7 +33,7 @@ from pyuipc import ERR_OK, ERR_OPEN, ERR_NOFS, ERR_REGMSG, ERR_ATOM, ERR_MAP, ER
 from pyuipc import ERR_WRONGFS, ERR_NOTOPEN, ERR_NODATA, ERR_TIMEOUT, ERR_SENDMSG, ERR_DATA
 from pyuipc import ERR_RUNNING, ERR_SIZE
 from pyuipc import SIM_ANY, SIM_FS98, SIM_FS2K, SIM_CFS2, SIM_CFS1, SIM_FLY, SIM_FS2K2, SIM_FS2K4
-from pyuipc import SIM_FSX, SIM_ESP, SIM_P3D, SIM_FSX64, SIM_P3D64
+from pyuipc import SIM_FSX, SIM_ESP, SIM_P3D, SIM_FSX64, SIM_P3D64, SIM_FS2020
 from pyuipc import FSUIPCException
 
 from fsuipc.fsuipc import FSUIPC
@@ -44,7 +44,7 @@ __all__ = [
     "ERR_VERSION", "ERR_WRONGFS", "ERR_NOTOPEN", "ERR_NODATA", "ERR_TIMEOUT", "ERR_SENDMSG",
     "ERR_DATA", "ERR_RUNNING", "ERR_SIZE",
     "SIM_ANY", "SIM_FS98", "SIM_FS2K", "SIM_CFS2", "SIM_CFS1", "SIM_FLY", "SIM_FS2K2", "SIM_FS2K4",
-    "SIM_FSX", "SIM_ESP", "SIM_P3D", "SIM_FSX64", "SIM_P3D64",
+    "SIM_FSX", "SIM_ESP", "SIM_P3D", "SIM_FSX64", "SIM_P3D64", "SIM_FS2020",
     "FSUIPCException",
     "FSUIPC", "PreparedData"
 ]
