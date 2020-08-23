@@ -1304,6 +1304,7 @@ initpyuipc(void)
         PyModule_AddIntConstant(module, "SIM_P3D", 10);
         PyModule_AddIntConstant(module, "SIM_FSX64", 11);
         PyModule_AddIntConstant(module, "SIM_P3D64", 12);
+        PyModule_AddIntConstant(module, "SIM_FS2020", 13);
 
         PyModule_AddIntConstant(module, "ERR_OK", 0);
         PyModule_AddIntConstant(module, "ERR_OPEN", 1);
