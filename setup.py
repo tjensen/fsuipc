@@ -23,7 +23,7 @@ else:
 
 setuptools.setup(
     name="fsuipc",
-    version="1.0.3",
+    version="1.1.0",
     author="Tim Jensen",
     author_email="tim.l.jensen@gmail.com",
     description="Client wrapper for FSUIPC",

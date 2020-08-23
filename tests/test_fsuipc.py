@@ -102,3 +102,27 @@ class TestFSUIPC(unittest.TestCase):
         ipc.write(mock.sentinel.data)
 
         self.mock_pyuipc_write.assert_called_once_with(mock.sentinel.data)
+
+    @mock.patch("fsuipc.fsuipc.pyuipc")
+    def test_get_simulator_version_returns_simulator_version(self, mock_pyuipc: mock.Mock) -> None:
+        mock_pyuipc.fs_version = 23
+
+        ipc = fsuipc.FSUIPC()
+
+        self.assertEqual(23, ipc.get_simulator_version())
+
+    @mock.patch("fsuipc.fsuipc.pyuipc")
+    def test_get_fsuipc_version_returns_fsuipc_version(self, mock_pyuipc: mock.Mock) -> None:
+        mock_pyuipc.fsuipc_version = 0x10230004
+
+        ipc = fsuipc.FSUIPC()
+
+        self.assertEqual("1.023d", ipc.get_fsuipc_version())
+
+    @mock.patch("fsuipc.fsuipc.pyuipc")
+    def test_get_library_version_returns_lib_version(self, mock_pyuipc: mock.Mock) -> None:
+        mock_pyuipc.lib_version = 54021
+
+        ipc = fsuipc.FSUIPC()
+
+        self.assertEqual("54.021", ipc.get_library_version())
