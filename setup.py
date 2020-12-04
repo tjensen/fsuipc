@@ -54,7 +54,7 @@ setuptools.setup(
         "Programming Language :: Python :: 3.8",
         "Topic :: Games/Entertainment :: Simulation"
     ],
-    python_requires=">=3.5,<3.9",
+    python_requires=">=3.5",
     setup_requires=["wheel"],
     ext_modules=[setuptools.Extension(
         name="pyuipc",
