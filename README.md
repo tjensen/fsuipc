@@ -39,3 +39,23 @@ with FSUIPC() as fsuipc:
 
         input("Press ENTER to read again")
 ```
+
+## Troubleshooting
+
+### IPC request contains bad data
+
+This error can be caused by a word length mismatch between the client and
+server processes. If your flight simulator software is 32-bit, you probably
+need to be running a 32-bit version of Python. Similarly, if your flight
+simulator is 64-bit, you need to run a 64-bit version of Python.
+
+You can check if your Python is 32-bit or 64-bit by running the command:
+
+```
+python -VV
+```
+
+### IPC sendmessage failed all retries
+
+This error can occur if you need to run your Python script as an administrator
+in order to communicate with the server process.
