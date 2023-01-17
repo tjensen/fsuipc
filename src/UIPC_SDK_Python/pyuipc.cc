@@ -776,7 +776,7 @@ PreparedData::PreparedData(PyObject* list, bool forRead) :
         const TypeInfo* typeInfo = 0;
 #if PY_MAJOR_VERSION>=3
         if (PyUnicode_Check(type)) {
-            if (PyUnicode_GET_SIZE(type)!=1) {
+            if (PyUnicode_GET_LENGTH(type)!=1) {
 #else
         if (PyString_Check(type)) {
             if (PyString_GET_SIZE(type)!=1) {
