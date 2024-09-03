@@ -45,7 +45,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip setuptools
         pip install twine
-    - uses: actions/download-artifact@v3
+    - uses: actions/download-artifact@v4.1.7
       with:
         path: artifacts
     - name: Build sdist
