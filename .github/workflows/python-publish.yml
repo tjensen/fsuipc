@@ -7,16 +7,17 @@ on:
 jobs:
   build:
 
-    runs-on: windows-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
+        os: [windows-latest]
         python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
         architecture: [x86, x64]
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
+    - uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python-version }} ${{ matrix.architecture }}
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
         architecture: ${{ matrix.architecture }}
@@ -26,8 +27,9 @@ jobs:
     - name: Build wheel
       run: |
         python setup.py bdist_wheel
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
+        name: wheel-${{ matrix.os }}-${{ matrix.python-version }}-${{ matrix.architecture }}
         path: dist/*
 
   deploy:
@@ -36,22 +38,23 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
+    - uses: actions/checkout@v4
+    - name: Set up Python
+      uses: actions/setup-python@v5
       with:
         python-version: '3.x'
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip setuptools
         pip install twine
-    - uses: actions/download-artifact@v4.1.7
+    - uses: actions/download-artifact@v4
       with:
-        path: artifacts
+        path: dist
+        pattern: wheel-*
+        merge-multiple: true
     - name: Build sdist
       run: |
         python setup.py sdist
-        cp artifacts/artifact/* dist
         dir -recurse dist
     - name: Publish
       env:
